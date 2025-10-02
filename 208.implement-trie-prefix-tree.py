@@ -36,44 +36,48 @@ from typing import *
 # @leet imports end
 
 # @leet start
-class Trie:
-
+class TrieNode():
     def __init__(self):
-        self.keys = {}
-        
+        self.children = {}
 
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+    
+  
     def insert(self, word: str) -> None:
-        curr_char = ""
-        dict = self.keys
-        i = 0
-
-        while i < len(word):
-            curr = word[i]
-            if curr not in dict: break
-            dict = dict[curr]
-            i+=1
-        
-        # loop through remaining characters and add tree node for each
-        for _ in range(i, len(word)-1):
-            curr = word[_]
-            dict.insert({curr: {}}) # insert current character as key with empty treen node
-            dict = dict[curr] 
-        
-        # add asterisk to indicate this prefix is a complete word
-        if "*" not in dict: dict.insert('*')
+        curr = self.root
+        for c in word:
+            if c in curr.children:
+                curr = curr.children[c]
+            else:
+                curr.children[c] = TrieNode()
+                curr = curr.children[c]
+        curr.children["*"] = None
 
 
 
     def search(self, word: str) -> bool:
-        for s in word:
-
-        if key = "*": return True
-
+        curr = self.root
+        for c in word:
+            if c not in curr.children:
+                return False
+            curr = curr.children[c]
+            print(c)
+        
+        if "*" in curr.children: 
+            return True
+        return False
 
         
-
     def startsWith(self, prefix: str) -> bool:
-        
+        curr = self.root
+        for c in prefix:
+            if c not in curr.children:
+                return False
+            curr = curr.children[c]
+        return True
+               
 
 
 # Your Trie object will be instantiated and called as such:
